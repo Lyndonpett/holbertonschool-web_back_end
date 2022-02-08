@@ -42,7 +42,7 @@ export default class HolbertonCourse {
       Array.isArray(value) === true
       && value.every((index) => typeof index === 'string')
     ) {
-      return this._students;
+      this._students = value;
     }
     throw new TypeError('Students must be an array of numbers');
   }
