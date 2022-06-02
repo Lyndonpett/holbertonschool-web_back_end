@@ -1,4 +1,4 @@
-#!/env/usr/bin/python3
+#!/usr/bin/env python3
 """Type annotations for to_str function"""
 
 

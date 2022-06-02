@@ -1,4 +1,4 @@
-#!/env/usr/bin/python3
+#!/usr/bin/env python3
 """Type annotation for sum_mixed_list function"""
 
 from typing import List, Union
