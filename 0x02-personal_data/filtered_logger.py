@@ -61,3 +61,24 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=environ.get("PERSONAL_DATA_DB_NAME")
     )
     return db
+
+def main():
+    """Connects to db, gets info, and displays it"""
+    logger = get_logger()
+    db = get_db()
+
+    # create cursor, execute queries in all rows
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users;")
+
+    for row in cursor:
+        # list of tuples
+        tupleList = row.items()
+        # transform to list of strings with PII_FIELDS
+        str = "; ".join(f"{tuple[0]}={tuple[1]}" for tuple in tupleList)
+        logger.info(str)
+
+    db.close()
+
+if __name__ == "__main__":
+    main()
