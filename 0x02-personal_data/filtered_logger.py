@@ -7,7 +7,9 @@ from typing import List
 import mysql.connector
 from os import environ
 
+
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
+
 
 class RedactingFormatter(logging.Formatter):
     """Redacting Formatter class"""
@@ -23,11 +25,12 @@ class RedactingFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         """Format log record"""
-        message = super().format(record)
-        return filter_datum(self.fields, self.REDACTION, message, self.SEPARATOR)
+        msg = super().format(record)
+        return filter_datum(self.fields, self.REDACTION, msg, self.SEPARATOR)
+
 
 def filter_datum(fields: List[str], redaction: str, message: str,
-        separator: str) -> str:
+                 separator: str) -> str:
     """Filter using regex"""
     for field in fields:
         regexString = f"(?<={field}=).*?(?={separator})"
@@ -52,6 +55,7 @@ def get_logger() -> logging.Logger:
     user_data.addHandler(streamHandler)
     return user_data
 
+
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """Gets and returns a database connection"""
     db = mysql.connector.connect(
@@ -61,6 +65,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=environ.get("PERSONAL_DATA_DB_NAME")
     )
     return db
+
 
 def main():
     """Connects to db, gets info, and displays it"""
@@ -79,6 +84,7 @@ def main():
         logger.info(str)
 
     db.close()
+
 
 if __name__ == "__main__":
     main()
