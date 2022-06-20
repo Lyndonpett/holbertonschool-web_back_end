@@ -3,7 +3,7 @@
 
 
 from api.v1.auth.auth import Auth
-import base64
+from base64 import b64decode
 from typing import Tuple, TypeVar
 from models.user import User
 
@@ -11,7 +11,8 @@ from models.user import User
 class BasicAuth(Auth):
     """Basic Auth class"""
 
-    def extract_base64_authorization_header(self, authorization_header: str) -> str:
+    def extract_base64_authorization_header(self,
+                                            authorization_header: str) -> str:
         """Extracts base64 authorization header"""
         if authorization_header is not None:
             if type(authorization_header) is str:
@@ -20,15 +21,19 @@ class BasicAuth(Auth):
 
         return None
 
-    def decode_base64_authorization_header(self, base64_authorization_header: str) -> str:
+    def decode_base64_authorization_header(self,
+                                           base64_authorization_header:
+                                           str) -> str:
         """Decodes base64 header"""
         try:
-            return base64.b64decode(base64_authorization_header).decode('utf-8')
+            return b64decode(base64_authorization_header).decode('utf-8')
 
         except Exception:
             return None
 
-    def extract_user_credentials(self, decoded_base64_authorization_header: str) -> Tuple[str, str]:
+    def extract_user_credentials(self,
+                                 decoded_base64_authorization_header:
+                                 str) -> Tuple[str, str]:
         """Extracts the users email and password from header"""
         if decoded_base64_authorization_header is not None:
             if type(decoded_base64_authorization_header) is str:
@@ -37,7 +42,8 @@ class BasicAuth(Auth):
 
         return None, None
 
-    def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar('User'):
+    def user_object_from_credentials(self, user_email: str,
+                                     user_pwd: str) -> TypeVar('User'):
         """Return user based on email and password"""
         if user_email is None or type(user_email) is not str:
             return None
