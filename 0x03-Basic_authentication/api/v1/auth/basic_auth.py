@@ -54,3 +54,11 @@ class BasicAuth(Auth):
 
         except Exception:
             return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """Overrides current_user method"""
+        auth = request.headers.get('Authorization')
+        header = self.extract_base64_authorization_header(auth)
+        decoded_header = self.decode_base64_authorization_header(header)
+        email, passwd = self.extract_user_credentials(decoded_header)
+        return self.user_object_from_credentials(email, passwd)
