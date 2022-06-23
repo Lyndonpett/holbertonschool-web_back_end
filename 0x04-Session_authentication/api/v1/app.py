@@ -25,6 +25,10 @@ if auth_type == "basic_auth":
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
 
+if auth_type == "session_auth":
+    from api.v1.auth.session_auth import SessionAuth
+    auth = SessionAuth()
+
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
@@ -50,11 +54,13 @@ def before_request():
     """Filters requests to correct error handlers"""
     authList = ["/api/v1/status/",
                 "/api/v1/unauthorized",
-                "/api/v1/forbidden"]
+                "/api/v1/forbidden",
+                "/api/v1/auth_session/login/"]
 
     if auth and auth.require_auth(request.path, authList):
 
-        if auth.authorization_header(request) is None:
+        if (auth.authorization_header(request) is None and
+           auth.session_cookie(request) is None):
             abort(401)
 
         if auth.current_user(request) is None:
