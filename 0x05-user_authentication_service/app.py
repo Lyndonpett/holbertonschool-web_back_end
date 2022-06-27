@@ -2,7 +2,7 @@
 """Module for Flask APp"""
 
 
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, redirect
 from auth import Auth
 
 
@@ -43,6 +43,20 @@ def login():
     response = jsonify({'email': email, 'message': 'logged in'})
     response.set_cookie('session_id', session_id)
     return response
+
+
+@app.route('/sessions', methods=['DELETE'])
+def logout():
+    """Route for logging out a user"""
+    session_id = request.cookies.get('session_id')
+    user = AUTH.get_user_from_session_id(session_id)
+
+    if user and session_id:
+        AUTH.destroy_session(session_id)
+        return redirect('/')
+
+    else:
+        abort(403)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
