@@ -4,3 +4,6 @@ node_modules
 0x00-python_variable_annotations/__pycache__/*.pyc
 0x01-python_async_function/__pycache__/*.pyc
 0x01-python_async_function/__pycache__/0-basic_async_syntax.cpython-37.pyc
+*.pyc
+*main.py
+0x05-user_authentication_service/a.db
