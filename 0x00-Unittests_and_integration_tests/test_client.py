@@ -33,7 +33,8 @@ class TestGithubOrgClient(TestCase):
     @patch("client.get_json")
     def test_public_repos(self, license):
         """Test public_repos method"""
-        with patch("client.GithubOrgClient.public_repos", new_callable=PropertyMock) as mock_repo:
+        with patch('client.GithubOrgClient.public_repos',
+                   new_callable=PropertyMock) as mock_repo:
             client = GithubOrgClient("org_name")
             license.return_value = {"repo_url", "url"}
             mock_repo.return_value = client.org.get("repos_url")
