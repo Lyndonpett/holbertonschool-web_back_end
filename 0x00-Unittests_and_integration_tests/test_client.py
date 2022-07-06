@@ -2,6 +2,7 @@
 """Unit tests for Client"""
 
 
+import unittest
 from client import GithubOrgClient
 from parameterized import parameterized, parameterized_class
 from unittest import TestCase, mock
@@ -58,7 +59,7 @@ class TestGithubOrgClient(TestCase):
     ("org_payload", "repos_payload", "expected_repos", "apache2_repos"),
     TEST_PAYLOAD
 )
-class TestIntegrationGithubOrgClient(TestCase):
+class TestIntegrationGithubOrgClient(unittest.TestCase):
     """Integration test for public repos method"""
 
     @classmethod
