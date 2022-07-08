@@ -7,7 +7,6 @@ from client import GithubOrgClient
 from parameterized import parameterized, parameterized_class
 from unittest import TestCase, mock
 from unittest.mock import patch, MagicMock, PropertyMock
-from urllib.error import HTTPError
 from fixtures import *
 
 
@@ -65,6 +64,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Set up class for integration tests"""
+        from urllib.error import HTTPError
         cls.get_patcher = patch("requests.get", side_effect=HTTPError)
 
     @classmethod
