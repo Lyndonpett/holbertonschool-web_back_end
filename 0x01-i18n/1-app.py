@@ -11,6 +11,7 @@ babel = Babel(app)
 
 
 class Config(object):
+    """Config class"""
     LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
@@ -19,7 +20,7 @@ class Config(object):
 app.config.from_object(Config)
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET'], strict_slashes=False)
 def index():
     """Index page"""
     return render_template('1-index.html')
