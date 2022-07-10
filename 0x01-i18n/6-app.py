@@ -44,17 +44,16 @@ def before_request():
 @babel.localeselector
 def get_locale():
     """Locale selector"""
-    locale = request.args.get('locale')
+    loc = request.args.get('locale')
 
-    if locale and locale in app.config['LANGUAGES']:
-        return locale
+    if loc and loc in app.config['LANGUAGES']:
+        return loc
     try:
         user = get_user()
-        if user and user['locale'] and user['locale'] in app.config['LANGUAGES']:
-            return user['locale']
+        if user and user['loc'] and user['loc'] in app.config['LANGUAGES']:
+            return user['loc']
     except Exception:
         return request.accept_languages.best_match(app.config['LANGUAGES'])
-
 
 
 @app.route('/', methods=['GET'], strict_slashes=False)
