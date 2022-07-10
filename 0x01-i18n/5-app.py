@@ -4,7 +4,6 @@
 
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
-from flask_babel import gettext as _
 
 
 app = Flask(__name__)
@@ -40,11 +39,6 @@ def get_user():
 def before_request():
     """Before request to stash user"""
     g.user = get_user()
-    if g.user:
-        welcome_text = _("You are logged in as %(name)s.", name=g.user['name'])
-        return render_template('5-index.html', welcome_text=welcome_text)
-    else:
-        return render_template('5-index.html', welcome_text=_("You are not logged in."))
 
 
 @babel.localeselector
