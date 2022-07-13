@@ -36,6 +36,22 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(method: Callable) -> None:
+    """Displays history of method calls"""
+    locRedis = redis.Redis()
+    qual = method.__qualname__
+
+    # get range of inputs and outputs
+    inputs = locRedis.lrange(f"{qual}:inputs", 0, -1)
+    outputs = locRedis.lrange(f"{qual}:outputs", 0, -1)
+    print(f"{qual} was called {len(inputs)} times:")
+
+    # use zip to pair inputs and outputs
+    for i, o in zip(inputs, outputs):
+        # print input and output and decode to string
+        print(f"{qual}(*{(i).decode('utf-8')}) -> {(o).decode('utf-8')}")
+
+
 class Cache():
     """Class for cache"""
 
