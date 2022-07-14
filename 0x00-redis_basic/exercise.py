@@ -10,6 +10,7 @@ from functools import wraps
 
 def count_calls(method: Callable) -> Callable:
     """Count the number of calls to a method"""
+    key = method.__qualname__
 
     @wraps(method)
     def wrapper(self, *args) -> Union[int, str]:
