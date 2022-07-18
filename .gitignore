@@ -7,3 +7,6 @@ node_modules
 *.pyc
 *main.py
 0x05-user_authentication_service/a.db
+*main.sql
+*init.sql
+0x01-MySQL_Advanced/names.sql
