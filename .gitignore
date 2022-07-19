@@ -10,3 +10,6 @@ node_modules
 *main.sql
 *init.sql
 0x01-MySQL_Advanced/names.sql
+0x02-NoSQL/dump/logs/nginx.metadata.json
+0x02-NoSQL/dump/logs/nginx.bson
+0x02-NoSQL/dump.zip
