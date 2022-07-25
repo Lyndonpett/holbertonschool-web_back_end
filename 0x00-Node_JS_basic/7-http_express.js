@@ -7,7 +7,7 @@ const app = express();
 app
   .get('/', (req, res) => res.send('Hello Holberton School!'))
   .get('/students', async (req, res) => {
-    res.write('This is a list of our students\n');
+    res.write('This is the list of our students\n');
     await countStudents(process.argv[2])
       .then((data) => {
         const fields = Object.keys(data);
