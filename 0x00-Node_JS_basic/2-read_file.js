@@ -27,7 +27,7 @@ const countStudents = (file) => {
     console.log(
       `Number of students in ${fieldName}: ${
         studentsPerField.length
-      }. List: ${studentsPerField.join(', ')}`
+      }. List: ${studentsPerField.join(', ')}`,
     );
   });
 };
