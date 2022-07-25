@@ -1,7 +1,7 @@
 // reads a file asynchronously
 const fs = require('fs');
 
-const countStudents = async(file) => {
+const countStudents = async (file) => {
   let content;
   try {
     content = await fs.promises.readFile(file, 'utf8');
@@ -20,11 +20,11 @@ const countStudents = async(file) => {
 
   for (let i = 0; i < eachField.length; i += 1) {
     const numStudents = field.filter(
-      (fieldName) => fieldName === eachField[i]
+      (fieldName) => fieldName === eachField[i],
     ).length;
 
     const studentsPerField = lines.filter(
-      (line) => line.split(',')[3] === eachField[i]
+      (line) => line.split(',')[3] === eachField[i],
     );
 
     const names = studentsPerField.map((line) => line.split(',')[0]);
@@ -32,12 +32,12 @@ const countStudents = async(file) => {
     console.log(
       `Number of students in ${
         eachField[i]
-      }: ${numStudents}. List: ${names.join(', ')}`
+      }: ${numStudents}. List: ${names.join(', ')}`,
     );
 
     dict[eachField[i]] = {
       numStudents,
-      names
+      names,
     };
   }
   return dict;
