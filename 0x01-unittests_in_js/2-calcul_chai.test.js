@@ -1,4 +1,4 @@
-const calculateNumber = require('./2-calcul.js');
+const calculateNumber = require('./2-calcul_chai.js');
 const expect = require('chai').expect;
 
 describe('calculateNumber', () => {
