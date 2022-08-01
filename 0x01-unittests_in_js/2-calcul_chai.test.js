@@ -17,4 +17,12 @@ describe('calculateNumber', () => {
   it('taking in a 0 while dividing', () => {
     expect(calculateNumber('DIVIDE', 1, 0)).to.equal('Error');
   });
+
+  it('taking in type SUM', () => {
+    expect(calculateNumber('SUM', 1, 2)).to.equal(3);
+    expect(calculateNumber('SUM', 2, 5)).to.equal(7);
+    expect(calculateNumber('SUM', 4, -5)).to.equal(-1);
+    expect(calculateNumber('SUM', 3, 2)).to.equal(5);
+    expect(calculateNumber('SUM', -2, -5)).to.equal(-7);
+  });
 });
