@@ -4,13 +4,13 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 
 describe('sendPaymentRequestToApi', () => {
-      it('Make sure math for sendPaymentRequestToAPI is the same as calculateNumber', () => {
-        const spiedFunction = sinon.spy(Utils, 'calculateNumber');
+  it('Make sure math for sendPaymentRequestToAPI is the same as calculateNumber', () => {
+    const spiedFunction = sinon.spy(Utils, 'calculateNumber');
 
-        sendPaymentRequestToApi(100, 20);
+    sendPaymentRequestToApi(100, 20);
 
-        expect(spy.calledOnce).to.be.true;
-        expect(spiedFunction.calledWith('SUM', 100, 20)).to.be.true;
-        spy.restore();
-      })
-    }
+    expect(spiedFunction.calledOnce).to.be.true;
+    expect(spiedFunction.calledWith('SUM', 100, 20)).to.be.true;
+    spiedFunction.restore();
+  });
+});
