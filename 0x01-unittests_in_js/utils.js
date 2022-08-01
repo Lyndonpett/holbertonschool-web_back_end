@@ -1,8 +1,7 @@
 // Utils module
 
-
 const Utils = {
-  calculateNumber = (type, a, b) => {
+  calculateNumber(type, a, b) {
     const whichType = type.toLowerCase();
     if (isNaN(a) || isNaN(b)) throw new TypeError('Arguments must be numbers');
 
@@ -17,7 +16,7 @@ const Utils = {
       default:
         throw new TypeError('Arguments must be SUM, SUBTRACT or DIVIDE');
     }
-  },
+  }
 };
 
 module.exports = Utils;
