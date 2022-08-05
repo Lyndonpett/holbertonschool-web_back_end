@@ -4,8 +4,8 @@ const queue = kue.createQueue();
 
 const job = queue
   .create('push_notification_code', {
-    phoneNumber: '+1-212-555-1212',
-    message: 'Hello World!',
+    phoneNumber: '4153518780',
+    message: 'This is the code to verify your account',
   })
   .save();
 
