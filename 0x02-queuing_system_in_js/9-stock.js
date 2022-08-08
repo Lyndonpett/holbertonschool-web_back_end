@@ -51,7 +51,7 @@ const setAsync = promisify(client.set).bind(client);
 // Write a function reserveStockById that will take itemId and stock as arguments:
 // It will set in Redis the stock for the key item.ITEM_ID
 
-const reserveStockById = async (itemId, stock) => {
+const reserveStockById = (itemId, stock) => {
   await setAsync(`item.${itemId}`, stock);
 };
 
