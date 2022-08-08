@@ -4,61 +4,70 @@ const listProducts = [
     itemName: 'Suitcase 250',
     price: 50,
     initialAvailableQuantity: 4,
+    currentQuantity: 4,
   },
   {
     itemId: 2,
     itemName: 'Suitcase 450',
-    price: 10,
+    price: 100,
     initialAvailableQuantity: 10,
+    currentQuantity: 10,
   },
   {
     itemId: 3,
     itemName: 'Suitcase 650',
     price: 350,
     initialAvailableQuantity: 2,
+    currentQuantity: 2,
   },
   {
     itemId: 4,
     itemName: 'Suitcase 1050',
     price: 550,
     initialAvailableQuantity: 5,
+    currentQuantity: 5,
   },
 ];
 
-const getItemById = (id) => {
-  return listProducts.find((item) => item.itemId === id);
+const getItemById = (itemId) => {
+  return listProducts.find((item) => item.itemId === itemId);
 };
 
 const express = require('express');
 const app = express();
 
-app.listen(1245);
+app.listen('1245');
 
 app.get('/list_products', (req, res) => {
-  res.send(listProducts);
+  res.json(listProducts);
 });
 
 const redis = require('redis');
 const client = redis.createClient();
 const { promisify } = require('util');
+const getAsync = promisify(client.get).bind(client);
+const setAsync = promisify(client.set).bind(client);
 
-const reserveStockById = (itemId, stock) => {
-  const asyncSet = promisify(client.set).bind(client);
-  asyncSet(`item.${itemId}`, stock);
+// Write a function reserveStockById that will take itemId and stock as arguments:
+// It will set in Redis the stock for the key item.ITEM_ID
+
+const reserveStockById = async (itemId, stock) => {
+  await setAsync(`item.${itemId}`, stock);
 };
+
+// Write an async function getCurrentReservedStockById, that will take itemId as an argument:
+// It will return the reserved stock for a specific item
 
 const getCurrentReservedStockById = async (itemId) => {
-  const asyncGet = promisify(client.get).bind(client);
-  await asyncGet(`item.${itemId}`);
+  await getAsync(`item.${itemId}`);
 };
 
+//Create the route GET /list_products/:itemId, that will return the current product and the current available stock (by using getCurrentReservedStockById)
 app.get('/list_products/:itemId', (req, res) => {
   const itemId = req.params.itemId;
   const item = getItemById(parseInt(itemId));
-
   if (item) {
-    getCurrentReservedStockById(itemId).then((stock) => {
-      item.initialAvailableQuantity = stock;
+    getCurrentReservedStockById(itemId).then(() => {
       res.send(item);
     });
   } else {
@@ -71,16 +80,13 @@ app.get('/reserve_product/:itemId', (req, res) => {
   const item = getItemById(parseInt(itemId));
 
   if (!item) {
-    res.status(404).send({ status: 'Product not found' });
+    return res.status(404).send({ status: 'Product not found' });
   }
-
-  if (item.initialAvailableQuantity <= 0) {
-    res.status(404).send({ status: 'Product not available' });
+  if (item.currentQuantity <= 0) {
+    res.status(400).send({ status: 'Not enough stock' });
   } else {
-    getCurrentReservedStockById(itemId).then((stock) => {
-      const newStock = stock - 1;
-      reserveStockById(itemId, newStock);
-      res.send({ status: 'Reservation confirmed', itemId: itemId });
-    });
+    item.currentQuantity--;
+    reserveStockById(itemId, item.currentQuantity);
+    res.send({ status: 'Reservation confirmed', itemId: itemId });
   }
 });
